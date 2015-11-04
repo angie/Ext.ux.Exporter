@@ -3,12 +3,13 @@
  * @author Ed Spencer (http://edspencer.net), with modifications from iwiznia, with modifications from yogesh
  * Class providing a common way of downloading data in .xls or .csv format
  */
-Ext.define("Ext.ux.exporter.Exporter", {
+Ext.define('Ext.ux.exporter.Exporter', {
     uses: [
-        "Ext.ux.exporter.ExporterButton",
-        "Ext.ux.exporter.csvFormatter.CsvFormatter",
-        "Ext.ux.exporter.excelFormatter.ExcelFormatter",
-        "Ext.ux.exporter.FileSaver"],
+        'Ext.ux.exporter.ExporterButton',
+        'Ext.ux.exporter.csvFormatter.CsvFormatter',
+        'Ext.ux.exporter.excelFormatter.ExcelFormatter',
+        'Ext.ux.exporter.FileSaver'
+    ],
 
     statics: {
         /**
@@ -20,18 +21,19 @@ Ext.define("Ext.ux.exporter.Exporter", {
          */
         exportAny: function(component, format, config) {
 
-            var func = "export";
+            var func = 'export';
             if (!component.is) {
-                func = func + "Store";
-            } else if (component.is("gridpanel")) {
-                func = func + "Grid";
-            } else if (component.is("treepanel")) {
-                func = func + "Tree";
+                func = func + 'Store';
+            } else if (component.is('gridpanel')) {
+                func = func + 'Grid';
+            } else if (component.is('treepanel')) {
+                func = func + 'Tree';
             } else {
-                func = func + "Store";
+                func = func + 'Store';
                 component = component.getStore();
             }
             var formatter = this.getFormatterByName(format);
+
             return this[func](component, formatter, config);
         },
 
@@ -49,7 +51,7 @@ Ext.define("Ext.ux.exporter.Exporter", {
             var store = grid.getStore() || config.store;
             var columns = Ext.Array.filter(grid.columns, function(col) {
                 return !col.hidden && (!col.xtype || col.xtype != "actioncolumn");
-                //return !col.hidden; // && (!col.xtype || col.xtype != "actioncolumn");
+                // return !col.hidden; // && (!col.xtype || col.xtype != "actioncolumn");
             });
 
             Ext.applyIf(config, {
@@ -117,8 +119,8 @@ Ext.define("Ext.ux.exporter.Exporter", {
          * @return {Ext.ux.exporter.Formatter}
          */
         getFormatterByName: function(formatter) {
-            formatter = formatter ? formatter : "excel";
-            formatter = !Ext.isString(formatter) ? formatter : Ext.create("Ext.ux.exporter." + formatter + "Formatter." + Ext.String.capitalize(formatter) + "Formatter");
+            formatter = formatter ? formatter : 'excel';
+            formatter = !Ext.isString(formatter) ? formatter : Ext.create('Ext.ux.exporter.' + formatter + 'Formatter.' + Ext.String.capitalize(formatter) + 'Formatter');
             return formatter;
         }
     }
